@@ -1,11 +1,11 @@
 name: Auto Telegram Commands
 on:
   schedule:
-    - cron: '0 * * * *'      # /dao mỗi giờ, phút 0
-    - cron: '1 */2 * * *'    # /giaohang mỗi 2h, phút 1
-    - cron: '2 */2 * * *'    # /hunt mỗi 2h, phút 2
-    - cron: '3 */8 * * *'    # /phuho mỗi 8h, phút 3
-    - cron: '4 0 * * *'      # /diemdanh mỗi 24h, phút 4
+    - cron: '13 * * * *'      # /dao mỗi giờ, phút 13
+    - cron: '14 */2 * * *'    # /giaohang mỗi 2h, phút 14
+    - cron: '15 */2 * * *'    # /hunt mỗi 2h, phút 15
+    - cron: '16 */8 * * *'    # /phuho mỗi 8h, phút 16
+    - cron: '17 0 * * *'      # /diemdanh mỗi 24h, phút 17
   workflow_dispatch:
     inputs:
       command:
@@ -30,15 +30,15 @@ jobs:
           MANUAL="${{ github.event.inputs.command }}"
           if [ -n "$MANUAL" ]; then
             echo "cmd=$MANUAL" >> $GITHUB_OUTPUT
-          elif [ "$SCHEDULE" == "0 * * * *" ]; then
+          elif [ "$SCHEDULE" == "13 * * * *" ]; then
             echo "cmd=/dao" >> $GITHUB_OUTPUT
-          elif [ "$SCHEDULE" == "1 */2 * * *" ]; then
+          elif [ "$SCHEDULE" == "14 */2 * * *" ]; then
             echo "cmd=/giaohang" >> $GITHUB_OUTPUT
-          elif [ "$SCHEDULE" == "2 */2 * * *" ]; then
+          elif [ "$SCHEDULE" == "15 */2 * * *" ]; then
             echo "cmd=/hunt" >> $GITHUB_OUTPUT
-          elif [ "$SCHEDULE" == "3 */8 * * *" ]; then
+          elif [ "$SCHEDULE" == "16 */8 * * *" ]; then
             echo "cmd=/phuho" >> $GITHUB_OUTPUT
-          elif [ "$SCHEDULE" == "4 0 * * *" ]; then
+          elif [ "$SCHEDULE" == "17 0 * * *" ]; then
             echo "cmd=/diemdanh" >> $GITHUB_OUTPUT
           fi
 
