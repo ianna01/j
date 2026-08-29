@@ -1,0 +1,52 @@
+name: Auto Telegram Commands
+on:
+  schedule:
+    - cron: '0 * * * *'      # /dao mỗi 1h
+    - cron: '5 */2 * * *'    # /hunt mỗi 2h
+    - cron: '10 */2 * * *'   # /giaohang mỗi 2h
+    - cron: '15 */8 * * *'   # /phuho mỗi 8h
+    - cron: '20 0 * * *'     # /diemdanh mỗi 24h
+  workflow_dispatch:
+    inputs:
+      command:
+        description: 'Lệnh test thủ công (vd: /dao)'
+        required: false
+        default: '/dao'
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install telethon
+
+      - name: Xác định lệnh cần gửi
+        id: pick
+        run: |
+          SCHEDULE="${{ github.event.schedule }}"
+          MANUAL="${{ github.event.inputs.command }}"
+          if [ -n "$MANUAL" ]; then
+            echo "cmd=$MANUAL" >> $GITHUB_OUTPUT
+          elif [ "$SCHEDULE" == "0 * * * *" ]; then
+            echo "cmd=/dao" >> $GITHUB_OUTPUT
+          elif [ "$SCHEDULE" == "5 */2 * * *" ]; then
+            echo "cmd=/hunt" >> $GITHUB_OUTPUT
+          elif [ "$SCHEDULE" == "10 */2 * * *" ]; then
+            echo "cmd=/giaohang" >> $GITHUB_OUTPUT
+          elif [ "$SCHEDULE" == "15 */8 * * *" ]; then
+            echo "cmd=/phuho" >> $GITHUB_OUTPUT
+          elif [ "$SCHEDULE" == "20 0 * * *" ]; then
+            echo "cmd=/diemdanh" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Gửi lệnh
+        env:
+          API_ID: ${{ secrets.API_ID }}
+          API_HASH: ${{ secrets.API_HASH }}
+          SESSION_STRING: ${{ secrets.SESSION_STRING }}
+          BOT_USERNAME: ${{ secrets.BOT_USERNAME }}
+          COMMAND: ${{ steps.pick.outputs.cmd }}
+        run: python send_command.py
