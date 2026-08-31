@@ -10,7 +10,7 @@ bot_username = os.environ["BOT_USERNAME"]
 command = os.environ["COMMAND"]
 
 MAX_RETRIES = 3
-WAIT_SECONDS = 90
+WAIT_SECONDS = 120
 
 async def main():
     async with TelegramClient(StringSession(session), api_id, api_hash) as client:
