@@ -9,7 +9,7 @@ session = os.environ["SESSION_STRING"]
 bot_username = os.environ["BOT_USERNAME"]
 command = os.environ["COMMAND"]
 
-MAX_RETRIES = 3
+MAX_RETRIES = 5
 WAIT_SECONDS = 120
 
 async def main():
