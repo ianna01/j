@@ -9,8 +9,8 @@ session = os.environ["SESSION_STRING"]
 bot_username = os.environ["BOT_USERNAME"]
 command = os.environ["COMMAND"]
 
-MAX_RETRIES = 5
-WAIT_SECONDS = 120
+MAX_RETRIES = 500
+WAIT_SECONDS = 90
 
 async def main():
     async with TelegramClient(StringSession(session), api_id, api_hash) as client:
